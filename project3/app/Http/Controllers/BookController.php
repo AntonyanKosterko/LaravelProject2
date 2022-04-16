@@ -8,7 +8,6 @@ use App\Models\Book;
 class BookController extends Controller
 {
     public function all(){
-        $book = new Book();
         $booksArr = Book::all();
 
         return $booksArr;
@@ -25,7 +24,7 @@ class BookController extends Controller
     }
 
     public function delete(Request $request){
-        $book = Book::find($request->id) -> delete();
+        $book = Book::find($request->id)->delete();
 
         return redirect('/');
     }
@@ -33,6 +32,7 @@ class BookController extends Controller
     public function changeAvailabilty(Request $request){
         $book = Book::find($request->id);
         $book->availability = !($book->availability);
+        $book->save();
 
         return redirect('/');
     }
