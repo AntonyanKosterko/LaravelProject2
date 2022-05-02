@@ -57,14 +57,15 @@
 <script>
 
 export default {
-    el: '#app',
-    data: {
-        booksArr : [],
+    data(){
+        return {
+            booksArr : [],
         
-        form : [
-            title = "",
-            author = "",
-        ],
+            form : {
+                title : "",
+                author : "",
+            },
+        }
     },
     methods: {
         loadBookList(){
