@@ -1,5 +1,5 @@
 <template>
-    <h1>fdgdgdfgdgfd</h1>
+    <h1>fdsfdsf</h1>
 </template>
 
 <style scoped>

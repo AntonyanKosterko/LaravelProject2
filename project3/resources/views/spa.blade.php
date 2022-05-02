@@ -108,6 +108,20 @@
                 this.loadBookList();
             }
         });
+    axios.post('api/token', {
+        email: "admin@test.com",
+        password: "admin",
+        device_name: navigator.userAgent
+    }).then(response => {
+        console.log('Token', response.data);
+    })
+    axios.get('api/user', {
+        headers: {
+            "Authorization" : 'Bearer ' + token
+        }
+    }).then(response => {
+        console.log(response.data);
+    });
     </script>
     @endverbatim
 </body>

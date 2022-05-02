@@ -1,6 +1,5 @@
 <template>
     <div id="app">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <div class="container mt-5">
             <h1>Список книг нашей библиотеки</h1>
             <table class="table">
@@ -36,8 +35,8 @@
                     <!-- Строка с полями для добавления новой книги -->
                     <tr>
                         <th scope="row">Добавить</th>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control" v-model="form['title']"></td>
+                        <td><input type="text" class="form-control" v-model="form['author']"></td>
                         <td></td>
                         <td>
                             <button type="button" class="btn btn-outline-success" v-on:click="addBook()">
@@ -54,13 +53,13 @@
 <style scoped>
 
 </style>
+
 <script>
 
-export default {
+let vm = new Vue({
     el: '#app',
     data: {
         booksArr : [],
-        
         form : [
             title = "",
             author = "",
@@ -99,5 +98,5 @@ export default {
         // Сразу после загрузки страницы подгружаем список книг и отображаем его
         this.loadBookList();
     }
-};
+});
 </script>
