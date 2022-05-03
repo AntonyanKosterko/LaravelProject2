@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Models\User;
 
+use function PHPUnit\Framework\returnSelf;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,7 +31,21 @@ Route::post('/token', function (Request $request) {
 
     $user = User::where('email', $request->email)->first();
 
-    // Проверка пароля!
+    if($user == null){
+        return null;
+    }
 
-    return $user->createToken($request->device_name)->plainTextToken;
+    // Проверка пароля!
+    if($request->password == $user->password){
+        $token = $user->createToken($request->device_name)->plainTextToken;
+        $user->remember_token = $token;
+        $user->save();
+        return $token;
+    }else{
+        return null;
+    }
+});
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
