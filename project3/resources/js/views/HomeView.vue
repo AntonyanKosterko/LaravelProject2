@@ -48,7 +48,7 @@ export default {
         loadBookList(){
             axios.get('api/book/all').then((response)=>{
                 this.booksArr = response.data;
-                console.log(this.booksArr);
+                //console.log(this.booksArr);
             });
         },
 
@@ -68,25 +68,16 @@ export default {
                     "Authorization" : 'Bearer ' + this.token,
                 }
                 }).then(response => {
-                    console.log(response.data);
+                    //console.log(response.data);
             });
         },
-
-        getAuthInfo(){
-            this.catchAuthInfo({
-                isAuth : this.isAuth,
-            });
-        }
         
     },
     mounted(){
         this.checkToken();
-        this.getAuthInfo();
         // Сразу после загрузки страницы подгружаем список книг и отображаем его
         this.loadBookList();
     },
-
-    props: ['catchAuthInfo'],
 };
 
 

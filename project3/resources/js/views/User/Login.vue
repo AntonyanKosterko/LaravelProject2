@@ -75,10 +75,10 @@ export default {
                 this.isCorrect = false;
               }else{
                 localStorage.setItem('token', this.token);
-                this.$router.push('/');
+                //this.$router.push('/');
+                window.location='/';
               }
             });
-            
         },
     },
 

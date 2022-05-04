@@ -5380,19 +5380,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      isAuth: null
+      user: null
     };
   },
   components: {
     Navbar: _components_Navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   methods: {
-    catchAuthInfo: function catchAuthInfo(data) {
-      console.log('child component said data', data);
-      this.isAuth = data.isAuth;
+    getUser: function getUser() {
+      var _this = this;
+
+      axios.get('api/user', {
+        headers: {
+          "Authorization": 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then(function (response) {
+        //console.log(response.data);
+        _this.user = response.data;
+      });
     }
   },
   mounted: function mounted() {
+    this.getUser();
     console.log("App mounted.");
     console.log("You can use axios");
   }
@@ -5514,14 +5523,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     checkAuthentication: function checkAuthentication() {
-      return this.isAuth;
+      //console.log(this.user);
+      return this.user != null;
+    },
+    logoutUser: function logoutUser() {
+      localStorage.clear();
     }
   },
   props: {
-    isAuth: Boolean
+    user: Object
   }
 });
 
@@ -5704,8 +5718,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('api/book/all').then(function (response) {
-        _this.booksArr = response.data;
-        console.log(_this.booksArr);
+        _this.booksArr = response.data; //console.log(this.booksArr);
       });
     },
     checkToken: function checkToken() {
@@ -5723,23 +5736,15 @@ __webpack_require__.r(__webpack_exports__);
         headers: {
           "Authorization": 'Bearer ' + this.token
         }
-      }).then(function (response) {
-        console.log(response.data);
-      });
-    },
-    getAuthInfo: function getAuthInfo() {
-      this.catchAuthInfo({
-        isAuth: this.isAuth
+      }).then(function (response) {//console.log(response.data);
       });
     }
   },
   mounted: function mounted() {
-    this.checkToken();
-    this.getAuthInfo(); // Сразу после загрузки страницы подгружаем список книг и отображаем его
+    this.checkToken(); // Сразу после загрузки страницы подгружаем список книг и отображаем его
 
     this.loadBookList();
-  },
-  props: ['catchAuthInfo']
+  }
 });
 
 /***/ }),
@@ -5830,9 +5835,9 @@ __webpack_require__.r(__webpack_exports__);
         if (_this.token == '') {
           _this.isCorrect = false;
         } else {
-          localStorage.setItem('token', _this.token);
+          localStorage.setItem('token', _this.token); //this.$router.push('/');
 
-          _this.$router.push('/');
+          window.location = '/';
         }
       });
     }
@@ -6030,6 +6035,10 @@ var routes = [{
   path: '/login',
   name: 'Login',
   component: _views_User_Login_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+}, {
+  path: '/logout',
+  name: 'Logout',
+  component: _views_HomeView_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
 }, {
   path: '/register',
   name: 'Register',
@@ -29644,9 +29653,9 @@ var render = function () {
   return _c(
     "div",
     [
-      _c("Navbar", { attrs: { isAuth: _vm.isAuth } }),
+      _c("Navbar", { attrs: { user: _vm.user } }),
       _vm._v(" "),
-      _c("router-view", { attrs: { catchAuthInfo: _vm.catchAuthInfo } }),
+      _c("router-view"),
     ],
     1
   )
@@ -29837,6 +29846,11 @@ var render = function () {
                           {
                             staticClass: "nav-link",
                             attrs: { "aria-current": "page", to: "/logout" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.logoutUser()
+                              },
+                            },
                           },
                           [_vm._v("Logout")]
                         ),

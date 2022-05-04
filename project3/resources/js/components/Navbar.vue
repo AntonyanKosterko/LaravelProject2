@@ -49,6 +49,7 @@
               class="nav-link"
               aria-current="page"
               to="/logout"
+              @click="logoutUser()"
               >Logout</router-link
             >
           </li>
@@ -70,11 +71,15 @@
 export default {
   methods:{
     checkAuthentication(){
-      return this.isAuth;
-    }
+      //console.log(this.user);
+      return this.user != null;
+    },
+    logoutUser(){
+      localStorage.clear();
+    },
   },
   props: {
-    isAuth: Boolean,
+    user: Object,
   },
 };
 </script>

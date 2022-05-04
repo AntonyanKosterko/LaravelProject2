@@ -27,6 +27,12 @@ const routes = [
   },
 
   {
+    path: '/logout',
+    name: 'Logout',
+    component: Home
+  },
+
+  {
     path: '/register',
     name: 'Register',
     component: Register

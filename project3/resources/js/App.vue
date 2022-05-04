@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Navbar :isAuth="isAuth"></Navbar>
-        <router-view  :catchAuthInfo='catchAuthInfo'></router-view>
+        <Navbar :user="user"></Navbar>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -11,7 +11,7 @@ import Navbar from './components/Navbar.vue';
 export default {
     data(){
         return {
-            isAuth : null,
+            user: null,
         }
     },
 
@@ -20,13 +20,20 @@ export default {
     },
 
     methods: {
-        catchAuthInfo(data){
-            console.log('child component said data', data);
-            this.isAuth = data.isAuth;
-        }
+        getUser(){
+            axios.get('api/user', {
+                headers: {
+                    "Authorization" : 'Bearer ' + localStorage.getItem('token'),
+                }
+                }).then(response => {
+                    //console.log(response.data);
+                    this.user = response.data;
+            });
+        },
     },
 
     mounted() {
+        this.getUser();
         console.log("App mounted.");
         console.log("You can use axios");
     },
