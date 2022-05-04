@@ -26,11 +26,14 @@ const routes = [
     component: Login
   },
 
+  /*
+  Пока нашел более удобный, но возможно менее эффективный способ логаута
   {
     path: '/logout',
     name: 'Logout',
     component: Home
   },
+  */
 
   {
     path: '/register',

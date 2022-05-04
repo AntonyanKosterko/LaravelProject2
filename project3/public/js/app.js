@@ -5524,6 +5524,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     checkAuthentication: function checkAuthentication() {
@@ -5709,8 +5717,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       booksArr: [],
-      token: null,
-      isAuth: false
+      token: null
     };
   },
   methods: {
@@ -5720,29 +5727,10 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('api/book/all').then(function (response) {
         _this.booksArr = response.data; //console.log(this.booksArr);
       });
-    },
-    checkToken: function checkToken() {
-      this.token = localStorage.getItem('token');
-
-      if (this.token == null) {
-        this.isAuth = false;
-      } else {
-        this.getUser();
-        this.isAuth = true;
-      }
-    },
-    getUser: function getUser() {
-      axios.get('api/user', {
-        headers: {
-          "Authorization": 'Bearer ' + this.token
-        }
-      }).then(function (response) {//console.log(response.data);
-      });
     }
   },
   mounted: function mounted() {
-    this.checkToken(); // Сразу после загрузки страницы подгружаем список книг и отображаем его
-
+    // Сразу после загрузки страницы подгружаем список книг и отображаем его
     this.loadBookList();
   }
 });
@@ -6035,11 +6023,16 @@ var routes = [{
   path: '/login',
   name: 'Login',
   component: _views_User_Login_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-}, {
+},
+/*
+Пока нашел более удобный, но возможно менее эффективный способ логаута
+{
   path: '/logout',
   name: 'Logout',
-  component: _views_HomeView_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-}, {
+  component: Home
+},
+*/
+{
   path: '/register',
   name: 'Register',
   component: _views_User_Register_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
@@ -29749,117 +29742,131 @@ var render = function () {
             attrs: { id: "navbarNav" },
           },
           [
-            _c(
-              "ul",
-              {
-                staticClass:
-                  "navbar-nav d-flex justify-content-between me-auto",
-              },
-              [
-                _vm.checkAuthentication()
-                  ? _c(
-                      "li",
-                      { staticClass: "nav-item" },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "nav-link",
-                            attrs: { "aria-current": "page", to: "/" },
-                          },
-                          [_vm._v("Home")]
-                        ),
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.checkAuthentication()
-                  ? _c(
-                      "li",
-                      { staticClass: "nav-item" },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "nav-link",
-                            attrs: { "aria-current": "page", to: "/admin" },
-                          },
-                          [_vm._v("Admin")]
-                        ),
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.checkAuthentication()
-                  ? _c("li", [
-                      _c("p", { staticClass: "p_auth" }, [
-                        _vm._v("You're not authorized, please log in"),
-                      ]),
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.checkAuthentication()
-                  ? _c(
-                      "li",
-                      { staticClass: "nav-item" },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "nav-link",
-                            attrs: { "aria-current": "page", to: "/login" },
-                          },
-                          [_vm._v("Login")]
-                        ),
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.checkAuthentication()
-                  ? _c(
-                      "li",
-                      { staticClass: "nav-item", attrs: { right: "" } },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "nav-link",
-                            attrs: { "aria-current": "page", to: "/register" },
-                          },
-                          [_vm._v("Register")]
-                        ),
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.checkAuthentication()
-                  ? _c(
-                      "li",
-                      { staticClass: "nav-item", attrs: { right: "" } },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "nav-link",
-                            attrs: { "aria-current": "page", to: "/logout" },
-                            on: {
-                              click: function ($event) {
-                                return _vm.logoutUser()
-                              },
-                            },
-                          },
-                          [_vm._v("Logout")]
-                        ),
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-              ]
-            ),
+            _c("ul", { staticClass: "navbar-nav" }, [
+              _vm.checkAuthentication()
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { "aria-current": "page", to: "/" },
+                        },
+                        [_vm._v("Home")]
+                      ),
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.checkAuthentication()
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { "aria-current": "page", to: "/admin" },
+                        },
+                        [_vm._v("Admin")]
+                      ),
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.checkAuthentication()
+                ? _c("li", [
+                    _c("p", { staticClass: "p_auth p-0" }, [
+                      _vm._v("You're not authorized, please log in"),
+                    ]),
+                  ])
+                : _vm._e(),
+            ]),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "collapse navbar-collapse justify-content-end",
+            attrs: { id: "navbarNav" },
+          },
+          [
+            _c("ul", { staticClass: "navbar-nav align-items-end" }, [
+              !_vm.checkAuthentication()
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { "aria-current": "page", to: "/login" },
+                        },
+                        [_vm._v("Login")]
+                      ),
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.checkAuthentication()
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item", attrs: { right: "" } },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { "aria-current": "page", to: "/register" },
+                        },
+                        [_vm._v("Register")]
+                      ),
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.checkAuthentication()
+                ? _c("li", { staticClass: "nav-item" }, [
+                    _c("p", { staticClass: "nav-link m-0 user__info" }, [
+                      _vm._v(_vm._s(_vm.user.name)),
+                    ]),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.checkAuthentication()
+                ? _c(
+                    "li",
+                    {
+                      staticClass: "nav-item",
+                      attrs: { right: "" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.logoutUser()
+                        },
+                      },
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "nav-link logout_pos",
+                          attrs: { href: "/" },
+                        },
+                        [_vm._v("Logout")]
+                      ),
+                    ]
+                  )
+                : _vm._e(),
+            ]),
           ]
         ),
       ]),

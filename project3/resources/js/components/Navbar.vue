@@ -14,7 +14,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav d-flex justify-content-between me-auto">
+        <ul class="navbar-nav">
           <li class="nav-item" v-if="checkAuthentication()">
             <router-link class="nav-link" aria-current="page" to="/"
               >Home</router-link
@@ -26,8 +26,12 @@
             >
           </li>
           <li v-if="!checkAuthentication()">
-            <p class="p_auth">You're not authorized, please log in</p>
+            <p class="p_auth p-0">You're not authorized, please log in</p>
           </li>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-end">
           <li class="nav-item" v-if="!checkAuthentication()">
             <router-link
               class="nav-link"
@@ -44,13 +48,17 @@
               >Register</router-link
             >
           </li>
-          <li class="nav-item" right v-if="checkAuthentication()">
-            <router-link
-              class="nav-link"
-              aria-current="page"
-              to="/logout"
-              @click="logoutUser()"
-              >Logout</router-link
+          <li class="nav-item" v-if="checkAuthentication()">
+            <p
+              class="nav-link m-0 user__info"
+              >{{ user.name }}</p
+            >
+          </li>
+          <li class="nav-item" @click="logoutUser()" right v-if="checkAuthentication()">
+            <a
+              class="nav-link logout_pos"
+              href="/"
+              >Logout</a
             >
           </li>
         </ul>

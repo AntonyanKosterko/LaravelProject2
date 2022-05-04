@@ -41,7 +41,6 @@ export default {
         return {
             booksArr : [],
             token : null,
-            isAuth: false,
         }
     },
     methods: {
@@ -51,30 +50,9 @@ export default {
                 //console.log(this.booksArr);
             });
         },
-
-        checkToken(){
-            this.token = localStorage.getItem('token');
-            if(this.token == null){
-                this.isAuth = false;
-            }else{
-                this.getUser();
-                this.isAuth = true;
-            }
-        },
-
-        getUser(){
-            axios.get('api/user', {
-                headers: {
-                    "Authorization" : 'Bearer ' + this.token,
-                }
-                }).then(response => {
-                    //console.log(response.data);
-            });
-        },
         
     },
     mounted(){
-        this.checkToken();
         // Сразу после загрузки страницы подгружаем список книг и отображаем его
         this.loadBookList();
     },
