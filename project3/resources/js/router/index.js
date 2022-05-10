@@ -5,19 +5,44 @@ import Admin from '../views/AdminView.vue'
 import Login from '../views/User/Login.vue'
 import Register from '../views/User/Register.vue'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
+
+function check(to, from, next) {
+  let token = localStorage.getItem("token");
+
+  if (!token) {
+      next("/login");
+  } else {
+      axios
+          .get("/api/check-token", {
+              headers: {
+                  Authorization: "Bearer " + token,
+              },
+          })
+          .then(() => {
+              next();
+          })
+          .catch(() => {
+              next("/login");
+          });
+  }
+}
+
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
+    path: "/",
+    name: "Home",
+    component: Home,
+    beforeEnter: check,
+},
+
 
   {
     path: '/admin',
     name: 'Admin',
-    component: Admin
+    component: Admin,
+    beforeEnter: check,
   },
 
   {

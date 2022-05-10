@@ -14,6 +14,20 @@ class BookController extends Controller
     }
 
     public function add(Request $request){
+        /*
+        if($request->user()->tokenCan('allow-edit')){
+            $book = new Book();
+            $book->title = $request->title;
+            $book->author = $request->author;
+            $book->availability = true;
+            $book->save();
+    
+            return redirect('/');
+        }
+
+        return response('gfdgfdgdg', 401);
+        */
+
         $book = new Book();
         $book->title = $request->title;
         $book->author = $request->author;
@@ -21,6 +35,7 @@ class BookController extends Controller
         $book->save();
 
         return redirect('/');
+        
     }
 
     public function delete(Request $request){

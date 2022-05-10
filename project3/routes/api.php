@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -34,9 +36,9 @@ Route::post('/token', function (Request $request) {
     if($user == null){
         return null;
     }
-
     // Проверка пароля!
-    if($request->password == $user->password){
+    if(Hash::check($request->password, $user->password)){
+        //$token = $user->createToken($request->device_name, ['allow-edit'])->plainTextToken;
         $token = $user->createToken($request->device_name)->plainTextToken;
         $user->remember_token = $token;
         $user->save();
@@ -46,6 +48,4 @@ Route::post('/token', function (Request $request) {
     }
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/logout', [UserController::class, 'logout']);

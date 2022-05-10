@@ -83,6 +83,11 @@ export default {
       return this.user != null;
     },
     logoutUser(){
+      axios.post('api/logout', {
+              "token" : localStorage.getItem('token'),
+          }).then(response => {
+              console.log('User token deleted');
+      });
       localStorage.clear();
     },
   },

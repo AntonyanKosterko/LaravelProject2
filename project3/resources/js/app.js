@@ -11,6 +11,7 @@ window.Vue = require('vue').default;
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store';
 
 /**
  * The following block of code may be used to automatically register your
@@ -31,7 +32,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
 const app = new Vue({
+    store,
     router,
     render: (h) => h(App),
 }).$mount('#app');
