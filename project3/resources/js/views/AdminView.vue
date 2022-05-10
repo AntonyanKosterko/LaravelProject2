@@ -27,7 +27,7 @@
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-outline-danger" v-on:click="deleteBook(index+1)">
+                            <button type="button" class="btn btn-outline-danger" v-on:click="deleteBook(book['id'])">
                                 Удалить
                             </button>
                         </td>
@@ -36,8 +36,8 @@
                     <!-- Строка с полями для добавления новой книги -->
                     <tr>
                         <th scope="row">Добавить</th>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
+                        <td><input v-model="form.title" type="text" class="form-control"></td>
+                        <td><input v-model="form.author" type="text" class="form-control"></td>
                         <td></td>
                         <td>
                             <button type="button" class="btn btn-outline-success" v-on:click="addBook()">
@@ -57,21 +57,27 @@
 
 export default {
     data(){
-        return {
-            booksArr : [],
-        
+        return {  
             form : {
                 title : "",
                 author : "",
             },
         }
     },
+    computed:{
+        booksArr(){
+            return this.$store.state.booksArr;
+        }
+    },
     methods: {
         loadBookList(){
+            /*
             axios.get('api/book/all').then((response)=>{
                 this.booksArr = response.data;
                 console.log(this.booksArr);
             });
+            */
+            this.$store.dispatch("getAll");
         },
         addBook(){
             axios.post('api/book/add', {

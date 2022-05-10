@@ -77,11 +77,17 @@
 
 <script>
 export default {
+  computed:{
+      user(){
+          return this.$store.state.user;
+      }
+  },
   methods:{
     checkAuthentication(){
       //console.log(this.user);
       return this.user != null;
     },
+
     logoutUser(){
       axios.post('api/logout', {
               "token" : localStorage.getItem('token'),
@@ -90,9 +96,6 @@ export default {
       });
       localStorage.clear();
     },
-  },
-  props: {
-    user: Object,
   },
 };
 </script>

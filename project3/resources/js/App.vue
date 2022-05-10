@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navbar :user="user"></Navbar>
+        <Navbar></Navbar>
         <router-view></router-view>
     </div>
 </template>
@@ -11,7 +11,6 @@ import Navbar from './components/Navbar.vue';
 export default {
     data(){
         return {
-            user: null,
         }
     },
 
@@ -21,14 +20,7 @@ export default {
 
     methods: {
         getUser(){
-            axios.get('api/user', {
-                headers: {
-                    "Authorization" : 'Bearer ' + localStorage.getItem('token'),
-                }
-                }).then(response => {
-                    //console.log(response.data);
-                    this.user = response.data;
-            });
+            this.$store.dispatch("getUser");
         },
     },
 
