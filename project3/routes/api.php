@@ -49,3 +49,4 @@ Route::post('/token', function (Request $request) {
 });
 
 Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/register', [UserController::class, 'create']);
